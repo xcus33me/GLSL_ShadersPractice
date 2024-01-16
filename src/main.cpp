@@ -7,7 +7,7 @@
 #include <stdexcept>
 #include <cstdlib>
 
-class  {
+class MyApplication{
 public:
     void run() {
         initWindow();
@@ -17,15 +17,19 @@ public:
     }
 
 private:
+    const uint32_t WIDTH = 800;
+    const uint32_t HEIGHT = 600;
+    GLFWwindow* window;
+
+
     void initWindow() {
-        // GLFW INITIALIZE
         glfwInit();
 
         // We need to tell it to not create an OpenGL context with a subsequent call:
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-
         glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); // Temporarily
 
+        window = glfwCreateWindow(WIDTH, HEIGHT, "ShaderPractice", nullptr, nullptr);
     }
 
     void initVulkan() {
@@ -33,17 +37,20 @@ private:
     }
 
     void mainLoop() {
-
+        while (!glfwWindowShouldClose(window)) {
+            glfwPollEvents();
+        }
     }
 
     void cleanup() {
+        glfwDestroyWindow(window);
 
+        glfwTerminate();
     }
-
 };
 
 int main() {
-    HelloTriangleApplication app;
+    MyApplication app;
 
     try {
         app.run();
